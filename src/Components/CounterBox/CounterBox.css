@@ -1,0 +1,117 @@
+:root {
+    --bg-color: #191818;
+    --c-bg-color: #1d1c1d;
+    --text-color: #ffffff;
+    --border-color: #ffffff6e;
+    --c-border-color: #21d773;
+    --t-color: rgb(255, 255, 255);
+
+}
+
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --c-bg-color: #191818;
+    --text-color: #ffffff;
+    --border-color: #ffffff;
+    --c-border-color: #21d773;
+    --t-color: rgb(141, 141, 141);
+}
+
+/* Whole Container */
+.counter_container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 10px;
+    gap: 15px;
+    box-shadow: 2px 2px 2px var(--border-color);
+    background-color: var(--c-bg-color);
+}
+
+/* Theme Changer */
+.themeChanger {
+    display: flex;
+    justify-content: right;
+}
+
+.themeChanger i {
+    color: var(--t-color);
+    cursor: pointer;
+    font-size: 28px;
+}
+
+/* Coutner */
+.counters {
+    display: flex;
+    gap: 10px;
+}
+
+.counter {}
+
+.timeBox {
+    border: 1px solid var(--c-border-color);
+    position: relative;
+    height: 130px;
+    width: 82px;
+    padding: 2px;
+    background-color: var(--c-bg-color);
+    border-radius: 10px;
+}
+
+.timeBox input {
+    width: 80px;
+    height: 130px;
+    border-radius: 10px;
+    text-align: center;
+    border: none;
+    font-size: 40px;
+    color: var(--text-color);
+    background-color: var(--c-bg-color);
+}
+
+.timeBox input:focus {
+    outline: none;
+}
+
+.timeBox p {
+    position: absolute;
+}
+
+.timeLabel {
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* Action Button */
+.actionButtons {
+    display: flex;
+}
+
+.actionButtons button {
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.actionButtons .mainBTN {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    gap: 10px;
+    background-color: var(--c-border-color);
+    color: var(--c-bg-color);
+    border: 1px solid transparent;
+}
+.secondBTN{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.secondBTN button{
+    width: 48%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    font-size: 20px;
+    background-color: var(--c-border-color);
+}

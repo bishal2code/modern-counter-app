@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+.modern_counter_app{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--bg-color);
+}
