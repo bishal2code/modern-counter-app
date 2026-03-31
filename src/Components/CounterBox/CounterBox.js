@@ -17,7 +17,7 @@ const CounterBox = () => {
     // Input Logic
     useEffect(() => {
         inputRefs[inputstep].current.focus();
-    }, [inputstep]);
+    }, [inputstep,inputRefs]);
 
     function timeInput(time) {
         const newValue = [...values];
