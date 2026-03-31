@@ -57,6 +57,9 @@
     padding: 2px;
     background-color: var(--c-bg-color);
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .timeBox input {
@@ -75,7 +78,8 @@
 }
 
 .timeBox p {
-    position: absolute;
+    font-size: 40px;
+    color: var(--text-color);
 }
 
 .timeLabel {
@@ -102,12 +106,14 @@
     color: var(--c-bg-color);
     border: 1px solid transparent;
 }
-.secondBTN{
+
+.secondBTN {
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
-.secondBTN button{
+
+.secondBTN button {
     width: 48%;
     height: 40px;
     border-radius: 5px;
