@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./CounterBox.css";
 const CounterBox = () => {
     const [theme, setTheme] = useState("dark");
@@ -12,12 +12,16 @@ const CounterBox = () => {
     const input3 = useRef(null);
     const input4 = useRef(null);
 
-    const inputRefs = [input1, input2, input3, input4];
+    const inputRefs = useMemo(() => [input1, input2, input3, input4], []);
+
 
     // Input Logic
     useEffect(() => {
-        inputRefs[inputstep].current.focus();
-    }, [inputstep,inputRefs]);
+        if (steps === 0) {
+            inputRefs[inputstep].current.focus();
+        }
+
+    }, [inputstep, inputRefs, steps]);
 
     function timeInput(time) {
         const newValue = [...values];
@@ -44,7 +48,7 @@ const CounterBox = () => {
         }, 0);
 
     }
-
+    // console.log("For Check", "1"-1)
     // For Key Management
     function handleKey(e) {
         if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
@@ -73,27 +77,66 @@ const CounterBox = () => {
 
 
     // For Countdown
-    const [demoSecond, setDemoSecond] = useState(0);
-    const [min, setMin] = useState(10);
+    // const [demoSecond, setDemoSecond] = useState(4);
+    // const [min, setMin] = useState(2);
+    // const [hour,setHour] = useState(2);
+    // const [day, setDay] = useState(1);
+
     useEffect(() => {
         if (steps === 1) {
             const timer = setInterval(() => {
-                setDemoSecond((prevSec) => {
-                    if (prevSec < 9) {
-                        return prevSec + 1; // count up seconds
-                    } else {
-                        // when 10 seconds reached, reset seconds and decrement minutes
-                        setMin((prevMin) => prevMin - 1);
-                        return 0;
-                    }
-                });
+                if (Number(values[3]) > 0) {
+                    // setDemoSecond((prev)=> prev-1)
+                    const tempSecond = [...values];
+                    tempSecond[3] = values[3] - 1;
+                    setValue(tempSecond);
+
+                }
+                if (Number(values[2]) > 0 && Number(values[3]) === 0) {
+                    const tempMin = [...values];
+                    tempMin[2] = tempMin[2] - 1;
+                    tempMin[3] = 60;
+                    setValue(tempMin);
+                }
+                if (Number(values[2]) === 0 && Number(values[1]) > 0) {
+                    const tempMin = [...values];
+                    tempMin[2] = 60;
+                    tempMin[1] = tempMin[1] - 1;
+                    setValue(tempMin);
+                }
+                if (Number(values[1]) === 0 && Number(values[0]) > 0) {
+                    const tempHour = [...values];
+                    tempHour[1] = 24;
+                    tempHour[0] = tempHour[0] - 1;
+                    setValue(tempHour);
+                }
             }, 1000);
-
-            return () => clearInterval(timer); // cleanup
+            return () => clearInterval(timer);
         }
-    }, [steps,min,demoSecond]);
+    }, [steps, values]);
+    // const timeFunction = () => {
+    //     if (Number(values[2]) > 0 && Number(values[3]) === 0) {
+    //         const tempMin = [...values];
+    //         tempMin[2] = tempMin[2] - 1;
+    //         tempMin[3] = 60;
+    //         setValue(tempMin);
+    //     }
+    //     if (Number(values[2]) === 0 && Number(values[1]) > 0) {
+    //         const tempMin = [...values];
+    //         tempMin[2] = 60;
+    //         tempMin[1] = tempMin[1] - 1;
+    //         setValue(tempMin);
+    //     }
+    //     if (Number(values[1]) === 0 && Number(values[0]) > 0) {
+    //         const tempHour = [...values];
+    //         tempHour[1] = 24;
+    //         tempHour[0] = tempHour[0] - 1;
+    //         setValue(tempHour);
+    //     }
 
-    // console.log("Min ", min, "Sec ", demoSecond)
+    // }
+
+    // console.log("Day ",day,"Hour ",hour,"Min ", min, "Sec ", demoSecond)
     return (
         <>
             <div className="counter_container">
