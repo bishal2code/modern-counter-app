@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Timer App - README</title>
+</head>
+<body>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h1>Modern Timer App</h1>
 
-## Available Scripts
+  <p>
+    This is my <strong>first project on GitHub</strong>, built with React.  
+    It’s a countdown timer that supports <strong>days, hours, minutes, and seconds</strong>, with features like:
+  </p>
 
-In the project directory, you can run:
+  <ul>
+    <li>Editable inputs for custom time setup</li>
+    <li>Start, pause, and clear controls</li>
+    <li>Keyboard navigation (Arrow keys + Enter)</li>
+    <li>Theme switching (light/dark mode)</li>
+  </ul>
 
-### `npm start`
+  <h2>Why I Built This</h2>
+  <p>
+    I wanted to challenge myself beyond a simple timer.  
+    This project helped me learn:
+  </p>
+  <ul>
+    <li>React hooks (<code>useState</code>, <code>useEffect</code>, <code>useRef</code>, <code>useMemo</code>)</li>
+    <li>Managing focus and keyboard events for better UX</li>
+    <li>Handling countdown logic across multiple time units</li>
+    <li>Applying theme changes with CSS variables</li>
+  </ul>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  <h2>What I Learned</h2>
+  <ul>
+    <li>My first version uses arrays of strings for time values. It works, but makes arithmetic harder.</li>
+    <li>A cleaner approach would be storing total seconds or using an object <code>{days, hours, minutes, seconds}</code>.</li>
+    <li>I also learned the importance of separating logic into smaller components for readability and scalability.</li>
+  </ul>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  <h2>Future Improvements</h2>
+  <ul>
+    <li>Refactor countdown logic to use total seconds</li>
+    <li>Split into smaller components (<em>TimeInput</em>, <em>CountdownDisplay</em>, <em>ThemeToggle</em>, <em>ActionButtons</em>)</li>
+    <li>Add notifications or sound alarms when the timer finishes</li>
+    <li>Improve pause/resume handling with clearer state management</li>
+  </ul>
 
-### `npm test`
+  <h2>Reflection</h2>
+  <p>
+    This project marks the start of my GitHub journey.  
+    I’m keeping this version as a milestone to show where I began, and I plan to build a 
+    <strong>refactored version</strong> that demonstrates cleaner state design and component separation.
+  </p>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  <h2>Updated Version</h2>
+  <p>
+    You can find the improved version here:  
+    <a href="https://github.com/bishal2code/modern-timer-refactored" target="_blank">
+      Modern Timer Refactored
+    </a>
+  </p>
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+</body>
+</html>
