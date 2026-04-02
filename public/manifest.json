@@ -18,6 +18,12 @@
       "sizes": "512x512"
     }
   ],
+  "assets": [
+    {
+      "src": "ringtone.mp3",
+      "type": "audio/mpeg"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",

@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./CounterBox.css";
+
 const CounterBox = () => {
+    const audio = useMemo(() => new Audio("/ringtone.mp3"), []);
     const [theme, setTheme] = useState("dark");
     const [inputstep, setInputstep] = useState(0);
-    const [values, setValue] = useState(["00", "00", "00", "00"]);
+    const [values, setValue] = useState([0, 0, 0, 0]);
     const [steps, setSteps] = useState(0)
+    const [error, setError] = useState(false);
+    const [timeComplete, setTimeComplete] = useState(false);
 
     // For Input
     const input1 = useRef(null);
@@ -24,31 +28,47 @@ const CounterBox = () => {
     }, [inputstep, inputRefs, steps]);
 
     function timeInput(time) {
-        const newValue = [...values];
-        if (time.length === 1) {
-            time = ("0" + time.slice(-1)).slice(-2);
+        // Only proceed if input is numeric text
+        if (/^\d+$/.test(time)) {
+            let formatted = time;
+
+            // If single digit, pad with leading zero
+            if (formatted.length === 1) {
+                formatted = ("0" + formatted).slice(-2);
+            }
+            // If more than 2 digits, keep only last 2
+            else if (formatted.length > 2) {
+                formatted = formatted.slice(-2);
+            }
+
+            const newValue = [...values];
+            newValue[inputstep] = formatted;
+            setValue(newValue);
+
+            // If not numeric, do nothing
         }
-        else if (time.length > 2) {
-            time = time.slice(-2);
-        }
-        newValue[inputstep] = time;
-        setValue(newValue);
+
+
     }
 
 
     // Reset All
     function ResetAll() {
         setInputstep(0);
-        setValue(["00", "00", "00", "00"]);
+        setValue([0, 0, 0, 0]);
         setSteps(0);
+        setBeha("");
+        setError(false);
+        setTimeComplete(false);
+        audio.pause();
         setTimeout(() => {
             if (input1.current) {
                 input1.current.focus();
             }
         }, 0);
+        
 
     }
-    // console.log("For Check", "1"-1)
     // For Key Management
     function handleKey(e) {
         if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
@@ -61,7 +81,7 @@ const CounterBox = () => {
             }
         }
         else if (e.key === "Enter") {
-            setSteps(1);
+            startCountDown();
         }
     }
 
@@ -76,11 +96,32 @@ const CounterBox = () => {
 
 
 
-    // For Countdown
-    // const [demoSecond, setDemoSecond] = useState(4);
-    // const [min, setMin] = useState(2);
-    // const [hour,setHour] = useState(2);
-    // const [day, setDay] = useState(1);
+    // Start Count Down
+    function startCountDown() {
+        if (values[0] > 0 && values[1] === 0) {
+            let tempCalc = [...values];
+            tempCalc[1] = 23;
+            tempCalc[0] = tempCalc[0] - 1;
+            tempCalc[2] === 0 ? tempCalc[2] = 59 : tempCalc[2] = values[2];
+            tempCalc[3] === 0 ? tempCalc[3] = 59 : tempCalc[3] = values[3];
+            setValue(tempCalc);
+        }
+        else if (values[1] > 0 && values[2] === 0) {
+            let tempCalc = [...values];
+            tempCalc[2] = 59;
+            tempCalc[1] = tempCalc[1] - 1;
+            tempCalc[3] === 0 ? tempCalc[3] = 59 : tempCalc[3] = values[3];
+            setValue(tempCalc);
+        }
+        if (values[3] === 0 && values[2] === 0 && values[1] === 0 && values[0] === 0) {
+            setError(true);
+        }
+        else {
+            setError(false);
+            setSteps(1);
+        }
+
+    }
 
     useEffect(() => {
         if (steps === 1) {
@@ -95,12 +136,12 @@ const CounterBox = () => {
                 if (Number(values[2]) > 0 && Number(values[3]) === 0) {
                     const tempMin = [...values];
                     tempMin[2] = tempMin[2] - 1;
-                    tempMin[3] = 60;
+                    tempMin[3] = 59;
                     setValue(tempMin);
                 }
                 if (Number(values[2]) === 0 && Number(values[1]) > 0) {
                     const tempMin = [...values];
-                    tempMin[2] = 60;
+                    tempMin[2] = 59;
                     tempMin[1] = tempMin[1] - 1;
                     setValue(tempMin);
                 }
@@ -110,43 +151,41 @@ const CounterBox = () => {
                     tempHour[0] = tempHour[0] - 1;
                     setValue(tempHour);
                 }
+                if (values[3] === 0 &&values[2] ===0 && values[1]===0 && values[0]===0) {
+                    setSteps(4);
+                    setTimeComplete(true)
+                }
             }, 1000);
+
             return () => clearInterval(timer);
+
         }
     }, [steps, values]);
-    // const timeFunction = () => {
-    //     if (Number(values[2]) > 0 && Number(values[3]) === 0) {
-    //         const tempMin = [...values];
-    //         tempMin[2] = tempMin[2] - 1;
-    //         tempMin[3] = 60;
-    //         setValue(tempMin);
-    //     }
-    //     if (Number(values[2]) === 0 && Number(values[1]) > 0) {
-    //         const tempMin = [...values];
-    //         tempMin[2] = 60;
-    //         tempMin[1] = tempMin[1] - 1;
-    //         setValue(tempMin);
-    //     }
-    //     if (Number(values[1]) === 0 && Number(values[0]) > 0) {
-    //         const tempHour = [...values];
-    //         tempHour[1] = 24;
-    //         tempHour[0] = tempHour[0] - 1;
-    //         setValue(tempHour);
-    //     }
-
-    // }
-
-    // console.log("Day ",day,"Hour ",hour,"Min ", min, "Sec ", demoSecond)
+    const [behaviour, setBeha] = useState("");
+    useEffect(() => {
+        if (error) {
+            setBeha("error");
+            audio.pause();
+        }
+        else if (timeComplete && steps !== 0) {
+            setBeha("success")
+            audio.play();
+        }
+        else {
+            setBeha("")
+            audio.pause();
+        }
+    }, [error, timeComplete, steps, audio])
     return (
         <>
-            <div className="counter_container">
+            <div className={`counter_container ${behaviour}`}>
                 <div className="themeChanger">
                     <i onClick={toggleTheme} className="fa-solid fa-sun"></i>
                 </div>
 
                 <div className="counters">
                     <div className="counter">
-                        <div className="timeBox">
+                        <div className={error ? "timeBox error" : "timeBox"}>
                             {steps === 0 ?
                                 <><input onClick={() => setInputstep(0)} onChange={(e) => timeInput(e.target.value)} onKeyDown={(e) => handleKey(e)} ref={input1} type="text" value={values[0]} />
                                 </> :
@@ -157,7 +196,7 @@ const CounterBox = () => {
                         <div className="timeLabel">Day</div>
                     </div>
                     <div className="counter">
-                        <div className="timeBox">
+                        <div className={error ? "timeBox error" : "timeBox"}>
                             {steps === 0 ?
                                 <><input onClick={() => setInputstep(1)} onChange={(e) => timeInput(e.target.value)} onKeyDown={(e) => handleKey(e)} ref={input2} type="text" value={values[1]} />
                                 </> :
@@ -167,7 +206,7 @@ const CounterBox = () => {
                         <div className="timeLabel">Hours</div>
                     </div>
                     <div className="counter">
-                        <div className="timeBox">
+                        <div className={error ? "timeBox error" : "timeBox"}>
                             {steps === 0 ?
                                 <><input onClick={() => setInputstep(2)} onChange={(e) => timeInput(e.target.value)} onKeyDown={(e) => handleKey(e)} ref={input3} type="text" value={values[2]} />
                                 </> :
@@ -177,7 +216,7 @@ const CounterBox = () => {
                         <div className="timeLabel">Minutes</div>
                     </div>
                     <div className="counter">
-                        <div className="timeBox">
+                        <div className={error ? "timeBox error" : "timeBox"}>
                             {steps === 0 ?
                                 <><input onClick={() => setInputstep(3)} onChange={(e) => timeInput(e.target.value)} onKeyDown={(e) => handleKey(e)} ref={input4} type="text" value={values[3]} />
                                 </> :
@@ -192,14 +231,24 @@ const CounterBox = () => {
                 <div className="actionButtons">
                     {steps === 0 ?
                         <>
-                            <button onClick={() => setSteps(1)} className="mainBTN"> Start <i className="fa-solid fa-play"></i></button>
+                            <button onClick={() => startCountDown()} className="mainBTN"> Start <i className="fa-solid fa-play"></i></button>
                         </>
                         :
                         <>
-                            <div className="secondBTN">
-                                <button onClick={() => setSteps(steps === 1 ? 2 : 1)}> {steps === 1 ? "Pause" : "Play"} <i className={steps === 2 ? "fa-solid fa-play" : "fa-solid fa-pause"}></i></button>
-                                <button onClick={ResetAll}> Clear <i className="fa-solid fa-x"></i></button>
-                            </div>
+                            {steps === 1 || steps === 2 ?
+                                <div className="secondBTN">
+                                    <button onClick={() => setSteps(steps === 1 ? 2 : 1)}> {steps === 1 ? "Pause" : "Play"} <i className={steps === 2 ? "fa-solid fa-play" : "fa-solid fa-pause"}></i></button>
+                                    <button onClick={ResetAll}> Clear <i className="fa-solid fa-x"></i></button>
+                                </div>
+                                :
+                                <>
+                                </>
+                            }
+                        </>
+                    }
+                    {steps === 4 &&
+                        <>
+                            <button onClick={ResetAll} className="mainBTN">Stop</button>
                         </>
                     }
                 </div>
